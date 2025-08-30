@@ -31,9 +31,14 @@ func (app *application) mount() http.Handler {
 	// processing should be stopped.
 	r.Use(middleware.Timeout(60 * time.Second))
 
-	r.Route("/v1", func(chi.Router) {
+	r.Route("/v1", func(r chi.Router) {
 		r.Get("/health", app.healthCheckHandler)
 	})
+
+	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
+		http.Error(w, "Route not found: "+r.URL.Path, http.StatusNotFound)
+	})
+
 	return r
 }
 
