@@ -13,10 +13,10 @@ func main() {
 		address: env.GetString("ADDRESS", ":8080"),
 
 		db: dbConfig{
-			address:      env.GetString("DB_ADDRESS", "postgresql://user:socialpassword@localhost/social?sslmode=disable"),
+			address:      env.GetString("DB_ADDRESS", "postgresql://admin:socialpassword@localhost/social?sslmode=disable"),
 			maxOpenConns: env.GetInt("DB_MAX_OPEN_CONNS", 30),
 			maxIdleConns: env.GetInt("DB_MAX_IDLE_CONNS", 30),
-			maxLifeTime:  env.GetString("DB_MAX_LIFE_TIME", "15min"),
+			maxLifeTime:  env.GetString("DB_MAX_LIFE_TIME", "15m"),
 		},
 	}
 
@@ -28,6 +28,10 @@ func main() {
 	if err != nil {
 		log.Panic(err)
 	}
+
+	defer appDb.Close()
+
+	log.Println("database connection pool established")
 
 	storage := store.NewStorage(appDb)
 	app := &application{
