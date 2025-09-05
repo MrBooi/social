@@ -8,10 +8,12 @@ import (
 	store "github.com/mrbooi/social/internal/store/storage"
 )
 
+const version = "0.0.1"
+
 func main() {
 	cfg := Config{
 		address: env.GetString("ADDRESS", ":8080"),
-
+		env:     env.GetString("ENV", "development"),
 		db: dbConfig{
 			address:      env.GetString("DB_ADDRESS", "postgresql://admin:socialpassword@localhost/social?sslmode=disable"),
 			maxOpenConns: env.GetInt("DB_MAX_OPEN_CONNS", 30),
