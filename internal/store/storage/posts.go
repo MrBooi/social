@@ -35,7 +35,7 @@ func (s *PostStore) Create(ctx context.Context, post *Post) error {
 		post.Content,
 		post.Title,
 		post.UserID,
-		pq.Array(post.Tags),
+		pq.Array(&post.Tags),
 	).Scan(
 		&post.ID,
 		&post.CreatedAt,
@@ -63,7 +63,7 @@ func (s *PostStore) GetByID(ctx context.Context, ID int64) (*Post, error) {
 		&post.Content,
 		&post.CreatedAt,
 		&post.UpdatedAt,
-		pq.Array(post.Tags),
+		pq.Array(&post.Tags),
 	)
 
 	if err != nil {
