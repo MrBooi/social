@@ -19,8 +19,9 @@ type Storage struct {
 		Delete(ctx context.Context, postID int64) error
 		Update(ctx context.Context, Post *Post) error
 	}
-	users interface {
+	Users interface {
 		Create(ctx context.Context, user *User) error
+		GetByID(ctx context.Context, userId int64) (*User, error)
 	}
 	Comments interface {
 		GetByPostID(ctx context.Context, postID int64) ([]Comment, error)
@@ -31,7 +32,7 @@ type Storage struct {
 func NewStorage(db *sql.DB) Storage {
 	return Storage{
 		Posts:    &PostStore{db},
-		users:    &UserStore{db},
+		Users:    &UserStore{db},
 		Comments: &CommentStore{db},
 	}
 }
