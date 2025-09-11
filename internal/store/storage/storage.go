@@ -14,12 +14,14 @@ type Storage struct {
 	Posts interface {
 		Create(ctx context.Context, Post *Post) error
 		GetByID(ctx context.Context, ID int64) (*Post, error)
+		Delete(ctx context.Context, postID int64) error
+		Update(ctx context.Context, Post *Post) error
 	}
 	users interface {
 		Create(ctx context.Context, user *User) error
 	}
 	Comments interface {
-		GetByPostID(ctx context.Context, PostID int64) ([]Comment, error)
+		GetByPostID(ctx context.Context, postID int64) ([]Comment, error)
 	}
 }
 
