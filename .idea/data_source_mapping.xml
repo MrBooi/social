@@ -10,6 +10,7 @@
     <file url="file://$PROJECT_DIR$/cmd/migrate/migrations/000004_alter_posts_with_tags_updated.up.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
     <file url="file://$PROJECT_DIR$/cmd/migrate/migrations/000005_add_comments.down.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
     <file url="file://$PROJECT_DIR$/cmd/migrate/migrations/000005_add_comments.up.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
+    <file url="file://$PROJECT_DIR$/cmd/migrate/migrations/000006_add_version_posts.up.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
     <file url="file://$PROJECT_DIR$/scripts/db.init.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
     <file url="file://$APPLICATION_CONFIG_DIR$/consoles/db/2c6382e8-ee3c-443d-a72e-4a4c583d2eeb/console.sql" value="2c6382e8-ee3c-443d-a72e-4a4c583d2eeb" />
   </component>
