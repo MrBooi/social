@@ -28,7 +28,7 @@ type UpdatedPostPayload struct {
 func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request) {
 	var payload CreatePostPayload
 
-	if err := readJSON(w, *r, &payload); err != nil {
+	if err := readJSON(w, r, &payload); err != nil {
 		app.badRequestResponse(w, r, err)
 		return
 	}
@@ -105,7 +105,7 @@ func (app *application) updatePostHandler(w http.ResponseWriter, r *http.Request
 	post := app.getPostsContext(r)
 
 	var payload UpdatedPostPayload
-	if err := readJSON(w, *r, &payload); err != nil {
+	if err := readJSON(w, r, &payload); err != nil {
 		app.badRequestResponse(w, r, err)
 		return
 	}
