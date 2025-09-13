@@ -61,6 +61,7 @@ func main() {
 	storage := store.NewStorage(appDb)
 	app := &application{
 		config: cfg,
+		logger: logger,
 		Store:  storage,
 	}
 
