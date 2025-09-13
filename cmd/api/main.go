@@ -6,6 +6,7 @@ import (
 	"github.com/mrbooi/social/internal/db"
 	"github.com/mrbooi/social/internal/env"
 	store "github.com/mrbooi/social/internal/store/storage"
+	"go.uber.org/zap"
 )
 
 const version = "0.0.1"
@@ -40,6 +41,10 @@ func main() {
 		},
 	}
 
+	// Logger
+	logger := zap.Must(zap.NewProduction()).Sugar()
+	defer logger.Sync()
+
 	appDb, err := db.New(cfg.db.address,
 		cfg.db.maxOpenConns,
 		cfg.db.maxIdleConns,
@@ -51,7 +56,7 @@ func main() {
 
 	defer appDb.Close()
 
-	log.Println("database connection pool established")
+	logger.Info("database connection pool established")
 
 	storage := store.NewStorage(appDb)
 	app := &application{
@@ -61,5 +66,5 @@ func main() {
 
 	mux := app.mount()
 
-	log.Fatal(app.run(mux))
+	logger.Fatal(app.run(mux))
 }

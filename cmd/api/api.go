@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/mrbooi/social/docs" // generated doc
+	"go.uber.org/zap"
 
 	store "github.com/mrbooi/social/internal/store/storage" // swagger embed files
 	httpSwagger "github.com/swaggo/http-swagger/v2"
@@ -17,6 +18,7 @@ import (
 type application struct {
 	config Config
 	Store  store.Storage
+	logger *zap.SugaredLogger
 }
 
 type Config struct {
