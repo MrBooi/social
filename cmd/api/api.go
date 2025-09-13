@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -105,6 +104,6 @@ func (app *application) run(mux http.Handler) error {
 		ReadTimeout:  time.Second * 10,
 		IdleTimeout:  time.Minute,
 	}
-	log.Printf("API server listening on %s", app.config.address)
+	app.logger.Infow("server has stopped", "addr", app.config.address, "env", app.config.env)
 	return server.ListenAndServe()
 }
