@@ -10,9 +10,27 @@ import (
 
 const version = "0.0.1"
 
+//	@title			Social GO API
+//	@description	API for GO Social, a social network for gohpers
+//	@termsOfService	http://swagger.io/terms/
+
+//	@contact.name	API Support
+//	@contact.url	http://www.swagger.io/support
+//	@contact.email	support@swagger.io
+
+//	@license.name	Apache 2.0
+//	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @BasePath					/v1
+//
+// @securityDefinitions.apikey	ApiKeyAuth
+// @in							header
+// @name						Authorization
+// @description
 func main() {
 	cfg := Config{
 		address: env.GetString("ADDRESS", ":8080"),
+		apiURL:  env.GetString("EXTERNAL_URL", "localhost:8080"),
 		env:     env.GetString("ENV", "development"),
 		db: dbConfig{
 			address:      env.GetString("DB_ADDRESS", "postgresql://admin:socialpassword@localhost/social?sslmode=disable"),
