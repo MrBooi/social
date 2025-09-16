@@ -69,11 +69,11 @@ func main() {
 
 	defer appDb.Close()
 	// Mailer
-	// mailer := mailer.NewSendgrid(cfg.mail.sendGrid.apiKey, cfg.mail.fromEmail)
-	mailtrap, err := mailer.NewMailTrapClient(cfg.mail.mailTrap.apiKey, cfg.mail.fromEmail)
-	if err != nil {
-		logger.Fatal(err)
-	}
+	mailer := mailer.NewSendgrid(cfg.mail.sendGrid.apiKey, cfg.mail.fromEmail)
+	//mailtrap, err := mailer.NewMailTrapClient(cfg.mail.mailTrap.apiKey, cfg.mail.fromEmail)
+	//if err != nil {
+	//	logger.Fatal(err)
+	//}
 
 	logger.Info("database connection pool established")
 
@@ -82,7 +82,7 @@ func main() {
 		config: cfg,
 		logger: logger,
 		Store:  storage,
-		mailer: mailtrap,
+		mailer: mailer,
 	}
 
 	mux := app.mount()
