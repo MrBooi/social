@@ -31,9 +31,10 @@ const version = "0.0.1"
 // @description
 func main() {
 	cfg := Config{
-		address: env.GetString("ADDRESS", ":8080"),
-		apiURL:  env.GetString("EXTERNAL_URL", "localhost:8080"),
-		env:     env.GetString("ENV", "development"),
+		address:     env.GetString("ADDRESS", ":8080"),
+		apiURL:      env.GetString("EXTERNAL_URL", "localhost:8080"),
+		env:         env.GetString("ENV", "development"),
+		frontendURL: env.GetString("FRONTEND_URL", "http://localhost:5173"),
 		db: dbConfig{
 			address:      env.GetString("DB_ADDRESS", "postgresql://admin:socialpassword@localhost/social?sslmode=disable"),
 			maxOpenConns: env.GetInt("DB_MAX_OPEN_CONNS", 30),
