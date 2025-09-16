@@ -8,6 +8,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/mrbooi/social/docs" // generated doc
+	"github.com/mrbooi/social/internal/mailer"
 	"go.uber.org/zap"
 
 	store "github.com/mrbooi/social/internal/store/storage" // swagger embed files
@@ -18,6 +19,7 @@ type application struct {
 	config Config
 	Store  store.Storage
 	logger *zap.SugaredLogger
+	mailer mailer.Client
 }
 
 type Config struct {
@@ -29,7 +31,18 @@ type Config struct {
 }
 
 type mailConfig struct {
-	exp time.Duration
+	sendGrid  sendGridConfig
+	mailTrap  mailTrapConfig
+	fromEmail string
+	exp       time.Duration
+}
+
+type mailTrapConfig struct {
+	apiKey string
+}
+
+type sendGridConfig struct {
+	apiKey string
 }
 
 type dbConfig struct {
