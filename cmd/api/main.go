@@ -6,6 +6,7 @@ import (
 
 	"github.com/mrbooi/social/internal/db"
 	"github.com/mrbooi/social/internal/env"
+	"github.com/mrbooi/social/internal/mailer"
 	store "github.com/mrbooi/social/internal/store/storage"
 	"go.uber.org/zap"
 )
@@ -67,6 +68,12 @@ func main() {
 	}
 
 	defer appDb.Close()
+	// Mailer
+	// mailer := mailer.NewSendgrid(cfg.mail.sendGrid.apiKey, cfg.mail.fromEmail)
+	mailtrap, err := mailer.NewMailTrapClient(cfg.mail.mailTrap.apiKey, cfg.mail.fromEmail)
+	if err != nil {
+		logger.Fatal(err)
+	}
 
 	logger.Info("database connection pool established")
 
@@ -75,6 +82,7 @@ func main() {
 		config: cfg,
 		logger: logger,
 		Store:  storage,
+		mailer: mailtrap,
 	}
 
 	mux := app.mount()
