@@ -74,8 +74,12 @@ func (app *application) registerUserHandler(w http.ResponseWriter, r *http.Reque
 		return
 	}
 	// send email invitation
+	userToken := UserWithToken{
+		User:  user,
+		Token: plainToken,
+	}
 
-	if err := jsonResponse(w, http.StatusCreated, nil); err != nil {
+	if err := jsonResponse(w, http.StatusOK, userToken); err != nil {
 		app.internalServerError(w, r, err)
 	}
 }
