@@ -1,6 +1,7 @@
 package main
 
 import (
+	"expvar"
 	"fmt"
 	"net/http"
 	"time"
@@ -29,6 +30,7 @@ type Config struct {
 	apiURL      string
 	frontendURL string
 	mail        mailConfig
+	auth        authConfig
 }
 
 type mailConfig struct {
@@ -40,6 +42,14 @@ type mailConfig struct {
 
 type mailTrapConfig struct {
 	apiKey string
+}
+type basicConfig struct {
+	user string
+	pass string
+}
+
+type authConfig struct {
+	basic basicConfig
 }
 
 type sendGridConfig struct {
@@ -69,6 +79,7 @@ func (app *application) mount() http.Handler {
 
 	r.Route("/v1", func(r chi.Router) {
 		r.Get("/health", app.healthCheckHandler)
+		r.With(app.BasicAuthMiddleware()).Get("/debug/vars", expvar.Handler().ServeHTTP)
 
 		// http://localhost:8080/v1/swagger/index.html
 		docsURL := fmt.Sprintf("%s/swagger/doc.json", app.config.address)
