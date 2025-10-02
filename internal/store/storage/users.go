@@ -87,7 +87,7 @@ func (s *UserStore) GetByID(ctx context.Context, userID int64) (*User, error) {
 	query := ` 
 			SELECT id, username, email, created_at
  			FROM users
-			 WHERE id = $1`
+			 WHERE id = $1 AND is_active = true`
 
 	ctx, cancel := context.WithTimeout(ctx, QueryTmeOutDuration)
 	defer cancel()

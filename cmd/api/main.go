@@ -4,6 +4,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/mrbooi/social/internal/auth"
 	"github.com/mrbooi/social/internal/db"
 	"github.com/mrbooi/social/internal/env"
 	"github.com/mrbooi/social/internal/mailer"
@@ -57,6 +58,11 @@ func main() {
 				user: env.GetString("AUTH_BASIC_USER", "admin"),
 				pass: env.GetString("AUTH_BASIC_PASS", "admin"),
 			},
+			token: tokenConfig{
+				secret: env.GetString("AUTH_TOKEN_SECRET", "example"),
+				exp:    time.Hour * 24 * 3, // 3 days
+				iss:    "social",
+			},
 		},
 	}
 
@@ -81,14 +87,22 @@ func main() {
 		logger.Fatal(err)
 	}
 
+	// Authenticator
+	jwtAuthenticator := auth.NewJWTAuthenticator(
+		cfg.auth.token.secret,
+		cfg.auth.token.iss,
+		cfg.auth.token.iss,
+	)
+
 	logger.Info("database connection pool established")
 
 	storage := store.NewStorage(appDb)
 	app := &application{
-		config: cfg,
-		logger: logger,
-		Store:  storage,
-		mailer: mailtrap,
+		config:        cfg,
+		logger:        logger,
+		Store:         storage,
+		mailer:        mailtrap,
+		authenticator: jwtAuthenticator,
 	}
 
 	mux := app.mount()

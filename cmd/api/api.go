@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/mrbooi/social/docs" // generated doc
+	"github.com/mrbooi/social/internal/auth"
 	"github.com/mrbooi/social/internal/mailer"
 	"go.uber.org/zap"
 
@@ -17,10 +18,11 @@ import (
 )
 
 type application struct {
-	config Config
-	Store  store.Storage
-	logger *zap.SugaredLogger
-	mailer mailer.Client
+	config        Config
+	Store         store.Storage
+	logger        *zap.SugaredLogger
+	mailer        mailer.Client
+	authenticator auth.Authenticator
 }
 
 type Config struct {
@@ -50,10 +52,17 @@ type basicConfig struct {
 
 type authConfig struct {
 	basic basicConfig
+	token tokenConfig
 }
 
 type sendGridConfig struct {
 	apiKey string
+}
+
+type tokenConfig struct {
+	secret string
+	exp    time.Duration
+	iss    string
 }
 
 type dbConfig struct {
@@ -116,6 +125,7 @@ func (app *application) mount() http.Handler {
 		// Public Routes
 		r.Route("/authentication", func(r chi.Router) {
 			r.Post("/user", app.registerUserHandler)
+			r.Post("/token", app.createTokenHandler)
 		})
 
 	})
