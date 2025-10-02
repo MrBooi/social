@@ -57,30 +57,28 @@ type FollowUser struct {
 //	@Router			/users/{userID}/follow [put]
 func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request) {
 	followerUser := getUserFromContext(r)
-	ctx := r.Context()
 
-	// TODO revert back just for testing
-	var payload FollowUser
-	if err := readJSON(w, r, &payload); err != nil {
+	followedID, err := strconv.ParseInt(chi.URLParam(r, "userID"), 10, 64)
+	if err != nil {
 		app.badRequestResponse(w, r, err)
 		return
 	}
 
-	err := app.Store.Followers.Follow(ctx, followerUser.ID, payload.UserID)
-	if err != nil {
-		switch {
-		case errors.Is(err, store.ErrConflict):
+	ctx := r.Context()
+
+	if err := app.Store.Followers.Follow(ctx, followedID, followerUser.ID); err != nil {
+		switch err {
+		case store.ErrConflict:
 			app.conflictResponse(w, r, err)
+			return
 		default:
 			app.internalServerError(w, r, err)
+			return
 		}
-
-		return
 	}
 
 	if err := jsonResponse(w, http.StatusNoContent, nil); err != nil {
 		app.internalServerError(w, r, err)
-		return
 	}
 }
 
@@ -98,26 +96,6 @@ func (app *application) followUserHandler(w http.ResponseWriter, r *http.Request
 //	@Security		ApiKeyAuth
 //	@Router			/users/{userID}/unfollow [put]
 func (app *application) unfollowUserHandler(w http.ResponseWriter, r *http.Request) {
-	unfollowedUser := getUserFromContext(r)
-	ctx := r.Context()
-
-	// TODO revert back just for testing
-	var payload FollowUser
-	if err := readJSON(w, r, &payload); err != nil {
-		app.badRequestResponse(w, r, err)
-		return
-	}
-
-	err := app.Store.Followers.Unfollow(ctx, unfollowedUser.ID, payload.UserID)
-	if err != nil {
-		app.internalServerError(w, r, err)
-		return
-	}
-
-	if err := jsonResponse(w, http.StatusNoContent, nil); err != nil {
-		app.internalServerError(w, r, err)
-		return
-	}
 }
 
 // ActivateUser godoc

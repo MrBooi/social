@@ -51,13 +51,12 @@ func (app *application) createPostHandler(w http.ResponseWriter, r *http.Request
 		app.badRequestResponse(w, r, err)
 		return
 	}
-
+	user := getUserFromContext(r)
 	post := &store.Post{
 		Content: payload.Content,
 		Title:   payload.Title,
 		Tags:    payload.Tags,
-		// TODO dont forget to change
-		UserID: 1,
+		UserID:  user.ID,
 	}
 
 	ctx := r.Context()
