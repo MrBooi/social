@@ -11,6 +11,8 @@ import (
 	"github.com/mrbooi/social/docs" // generated doc
 	"github.com/mrbooi/social/internal/auth"
 	"github.com/mrbooi/social/internal/mailer"
+	"github.com/mrbooi/social/internal/store/cache"
+
 	"go.uber.org/zap"
 
 	store "github.com/mrbooi/social/internal/store/storage" // swagger embed files
@@ -20,6 +22,7 @@ import (
 type application struct {
 	config        Config
 	Store         store.Storage
+	cacheStorage  cache.Storage
 	logger        *zap.SugaredLogger
 	mailer        mailer.Client
 	authenticator auth.Authenticator
@@ -33,6 +36,7 @@ type Config struct {
 	frontendURL string
 	mail        mailConfig
 	auth        authConfig
+	redisCfg    redisConfig
 }
 
 type mailConfig struct {
@@ -63,6 +67,13 @@ type tokenConfig struct {
 	secret string
 	exp    time.Duration
 	iss    string
+}
+
+type redisConfig struct {
+	addr    string
+	pass    string
+	db      int
+	enabled bool
 }
 
 type dbConfig struct {
