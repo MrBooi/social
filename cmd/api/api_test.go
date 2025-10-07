@@ -24,7 +24,7 @@ func TestRateLimiterMiddleware(t *testing.T) {
 	defer ts.Close()
 
 	client := &http.Client{}
-	mockIP := "192.168.1.1"
+	mockIP := "127.0.0.1"
 	marginOfError := 2
 
 	for i := 0; i < cfg.rateLimiter.RequestsPerTimeFrame+marginOfError; i++ {
