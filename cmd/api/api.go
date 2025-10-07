@@ -16,6 +16,7 @@ import (
 	"github.com/mrbooi/social/docs" // generated doc
 	"github.com/mrbooi/social/internal/auth"
 	"github.com/mrbooi/social/internal/mailer"
+	"github.com/mrbooi/social/internal/ratelimiter"
 	"github.com/mrbooi/social/internal/store/cache"
 
 	"go.uber.org/zap"
@@ -31,6 +32,7 @@ type application struct {
 	logger        *zap.SugaredLogger
 	mailer        mailer.Client
 	authenticator auth.Authenticator
+	rateLimiter   ratelimiter.Limiter
 }
 
 type Config struct {
@@ -42,6 +44,7 @@ type Config struct {
 	mail        mailConfig
 	auth        authConfig
 	redisCfg    redisConfig
+	rateLimiter ratelimiter.Config
 }
 
 type mailConfig struct {
@@ -96,6 +99,7 @@ func (app *application) mount() http.Handler {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(app.RateLimiterMiddleware)
 
 	// Set a timeout value on the request context (ctx), that will signal
 	// through ctx.Done() that the request has timed out and further

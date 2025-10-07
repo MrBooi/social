@@ -70,5 +70,8 @@ func (app *application) rateLimitExceededResponse(w http.ResponseWriter, r *http
 
 	w.Header().Set("Retry-After", retryAfter)
 
-	writeJSONError(w, http.StatusTooManyRequests, "rate limit exceeded, retry after: "+retryAfter)
+	err := writeJSONError(w, http.StatusTooManyRequests, "rate limit exceeded, retry after: "+retryAfter)
+	if err != nil {
+		return
+	}
 }

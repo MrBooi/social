@@ -9,6 +9,7 @@ import (
 	"github.com/mrbooi/social/internal/db"
 	"github.com/mrbooi/social/internal/env"
 	"github.com/mrbooi/social/internal/mailer"
+	"github.com/mrbooi/social/internal/ratelimiter"
 	"github.com/mrbooi/social/internal/store/cache"
 	store "github.com/mrbooi/social/internal/store/storage"
 	"go.uber.org/zap"
@@ -72,6 +73,11 @@ func main() {
 				iss:    "social",
 			},
 		},
+		rateLimiter: ratelimiter.Config{
+			RequestsPerTimeFrame: env.GetInt("RATELIMITER_REQUESTS_COUNT", 20),
+			TimeFrame:            time.Second * 5,
+			Enabled:              env.GetBool("RATE_LIMITER_ENABLED", true),
+		},
 	}
 
 	// Logger
@@ -114,6 +120,10 @@ func main() {
 		)
 		logger.Info("redis database cache connection pool established")
 	}
+	rateLimiter := ratelimiter.NewFixedWindowLimiter(
+		cfg.rateLimiter.RequestsPerTimeFrame,
+		cfg.rateLimiter.TimeFrame,
+	)
 
 	storage := store.NewStorage(appDb)
 	cacheStorage := cache.NewRedisStorage(redisDb)
@@ -125,6 +135,7 @@ func main() {
 		cacheStorage:  cacheStorage,
 		mailer:        mailtrap,
 		authenticator: jwtAuthenticator,
+		rateLimiter:   rateLimiter,
 	}
 
 	mux := app.mount()
