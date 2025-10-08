@@ -1,5 +1,15 @@
 # Changelog
 
+## [1.0.1](https://github.com/MrBooi/social/compare/v1.0.0...v1.0.1) (2025-10-08)
+
+
+### Bug Fixes
+
+* audit script for failing to generate missing swagger docs ([e04d64c](https://github.com/MrBooi/social/commit/e04d64ccd2170e677766e32218c2523d32c0f13b))
+* dump go version ([94edfd8](https://github.com/MrBooi/social/commit/94edfd837e1b1bb5599d2506ee06bf4ac34a15fe))
+* ignore failing test for now ([e7052a6](https://github.com/MrBooi/social/commit/e7052a64117755ebdfecdc6410abf7a57864c779))
+* remove unused user handler ([1525e0f](https://github.com/MrBooi/social/commit/1525e0f785dbc3f35077299ec75b6b479b2d4d46))
+
 ## 1.0.0 (2025-10-08)
 
 
