@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/MrBooi/social/compare/v1.0.1...v1.1.0) (2025-10-08)
+
+
+### Features
+
+* add Dockerfile ([71a7128](https://github.com/MrBooi/social/commit/71a7128b795f4f402f4774514cac1724ca3b9816))
+
 ## [1.0.1](https://github.com/MrBooi/social/compare/v1.0.0...v1.0.1) (2025-10-08)
 
 
