@@ -27,7 +27,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o api cmd/api/*.go
 FROM scratch
 
 # Metadata
-LABEL maintainer="Ayabonga Booi <you@example.com>" \
+LABEL maintainer="Ayabonga Booi mrbooi.ayabonga@gmail.com" \
       description="Social API built with Go and Swagger docs" \
       version="1.0.0"
 
