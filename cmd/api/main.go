@@ -52,7 +52,7 @@ func main() {
 			addr:    env.GetString("REDIS_ADDRESS", "localhost:6379"),
 			pass:    env.GetString("REDIS_PASSWORD", ""),
 			db:      env.GetInt("REDIS_DB", 0),
-			enabled: env.GetBool("REDIS_ENABLED", false),
+			enabled: env.GetBool("REDIS_ENABLED", true),
 		},
 		mail: mailConfig{
 			exp:       time.Hour * 24 * 3, // 3 days
