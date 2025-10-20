@@ -1,0 +1,27 @@
+export ADDRESS=":8080"
+export EXTERNAL_URL="localhost:8080"
+export ENV="production"
+export FRONTEND_URL=""
+
+export DB_ADDRESS="postgresql://admin:socialpassword@localhost/social?sslmode=disable"
+export DB_MAX_OPEN_CONNS=30
+export DB_MAX_IDLE_CONNS=30
+export DB_MAX_LIFE_TIME="15m"
+
+export REDIS_ADDRESS=""
+export REDIS_PASSWORD=""
+export REDIS_DB=""
+export REDIS_ENABLED=true
+
+export FROM_EMAIL="hello@demomailtrap.co"
+export SENDGRID_API_KEY="73065e3953047ad463d914164f682b98"
+export MAILTRAP_API_KEY="283cfc43968b7436a223b5e9333c0bdf"
+
+export AUTH_BASIC_USER="admin"
+export AUTH_BASIC_PASS="admin"
+export AUTH_TOKEN_SECRET= "c5296daaec141f6f1cbbbd72b5e8eb0868988c9f"
+
+export RATE_LIMITER_REQUESTS_COUNT=20
+export RATE_LIMITER_ENABLED=true
+
+export CORS_ALLOWED_ORIGIN = ""
